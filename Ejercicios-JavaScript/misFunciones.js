@@ -10,6 +10,10 @@ let cambiarUnidades = (id , valor)=>{
     //creacion de variables
     let met, pul, pie, yar;
 
+    if(valor.includes(",")){
+        valor = valor.replace(",", ".");
+    }
+
     if(isNaN(valor)) {
         //
         alert("Se ingreso un valor invalido"+id);
@@ -44,10 +48,10 @@ let cambiarUnidades = (id , valor)=>{
     }
 
     //Asignacion de valores a los inputs de la UI
-    document.lasUnidades.unid_metro.value = met;
-    document.lasUnidades.unid_pulgada.value = pul;
-    document.lasUnidades.unid_yarda.value = yar;
-    document.lasUnidades.unid_pie.value = pie;
+    document.lasUnidades.unid_metro.value = Math.round(met*100)/100;
+    document.lasUnidades.unid_pulgada.value = pul.toFixed(2);
+    document.lasUnidades.unid_yarda.value = Math.round(met*100)/100;
+    document.lasUnidades.unid_pie.value = pie.toFixed(2);
 }
 
 let convertirGR  = (id) =>{
@@ -96,6 +100,89 @@ let sumar = () => {
     num1 = document.getElementById("nums1").value;
     num2 = document.getElementById("nums2").value;
     res = Number(num1) + Number(num2);
-    document.getElementById("totalS").value = res;
+    document.getElementById("totalS").innerHTML = res;
 }
 
+
+let generarUrl = () => {
+    const dist = document.getElementById("distancia").value;
+    const unid = document.getElementsByName("unidades")[0].value;
+
+    const urlComp = "segundaWeb.html#" + dist + "#" + unid;
+
+    window.open(urlComp, "_self")
+
+}
+
+let cargaValores = () => {
+    let urlCompleta = window.location.href.split("/")[5];
+
+
+    const  distancia = urlCompleta.split("#")[1]
+    const unidad = urlCompleta.split("#")[2]
+    document.getElementById("dist").value = distancia + " " + unidad;
+
+
+}
+
+
+let guardarDatosLS = () => {
+    const dist = document.getElementById("distancia").value;
+    const unid = document.getElementsByName("unidades")[0].value;
+
+    localStorage.setItem("distanciaLS", dist);
+    localStorage.setItem("UnidadesLS", unid);
+    window.open("WEB2.html");
+}
+
+let tomarDatosLS = () => {
+    const cant = localStorage.getItem("distanciaLS");
+    const unid = localStorage.getItem("unidadesLS");
+
+    document.getElementById("dist").value = cant + " " + unid;
+
+}
+
+let dibujarCirculoCuadrado = () => {
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+    var xMax = canvas.width;
+    var yMax = canvas.height;
+    var margen = 5
+
+    ctx.fillStyle = "#1b6406"
+    ctx.fillRect(0+margen, yMax-40-margen, 40, 40);
+
+    ctx.arc(xMax/2, yMax/2, 20, 0, 2*Math.PI);
+    ctx.stroke();
+    ctx.fillStyle = "#99cc9f";
+    ctx.fill();
+}
+
+var bandera;
+function dibujar(event){
+    var canvas = document.getElementById("canvasAdibujar");
+    var ctx = canvas.getContext("2d");
+
+    var posX = event.clientX;
+    var posY = event.clientY;
+    console.log(posX, posY);
+
+    canvas.onmousedown = function (){bandera = true};
+    canvas.onmouseup = function (){bandera = false};
+
+    if(bandera){
+        ctx.fillRect(posX, posY, 5, 5);
+        ctx.fill;
+    }
+
+
+}
+
+function limpiarCanvas(){
+    var canvas = document.getElementById("canvasAdibujar");
+    var ctx =  canvas.getContext("2d");
+
+    canvas.width = canvas.width;
+
+}
