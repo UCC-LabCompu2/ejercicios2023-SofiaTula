@@ -186,3 +186,150 @@ function limpiarCanvas(){
     canvas.width = canvas.width;
 
 }
+
+let dibujarCuadriculado = () =>{
+    const canvas = document.getElementById("myCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const anchoMax = canvas.width;
+    const alturaMax = canvas.height;
+    const paso = 20;
+    let ejeX =-24;
+    let ejeY = -14;
+
+    //Lineas Verticales
+    for (let i = 20; i<anchoMax; i+=20) {
+        ctx.beginPath();
+        ctx.moveTo(i, 0);
+        ctx.lineTo(i, alturaMax);
+        ctx.strokeStyle = "#333";
+        ctx.stroke();
+        ctx.font="10px Arial";
+        ctx.fillStyle = "blue";
+        ctx.fillText(ejeX, i, alturaMax/2);
+        ctx.closePath();
+        ejeX++;
+    }
+
+    //Lineas Horizontales
+    for (let i = paso; i<alturaMax; i+=paso){
+        ctx.beginPath();
+        ctx.moveTo(0,i);
+        ctx.lineTo(anchoMax, i);
+        ctx.strokeStyle = "#333";
+        ctx.stroke();
+        ctx.font="10px Arial";
+        ctx.fillStyle = "blue";
+        ctx.fillText(ejeY, anchoMax/2, i);
+        ctx.closePath();
+        ejeY++;
+    }
+
+    //Eje x
+
+    ctx.beginPath();
+    ctx.moveTo(0,alturaMax/2);
+    ctx.lineTo(anchoMax, alturaMax/2);
+    ctx.strokeStyle = "#da1d1d";
+    ctx.stroke();
+    ctx.closePath();
+
+    //Eje y
+
+    ctx.beginPath();
+    ctx.moveTo(anchoMax/2, 0);
+    ctx.lineTo(anchoMax/2 ,alturaMax);
+    ctx.strokeStyle = "#da1d1d";
+    ctx.stroke();
+    ctx.closePath();
+
+}
+
+
+let dibujarImagen=(posX, posY) => {
+    const canvas = document.getElementById("myCanvas");
+    const ctx = canvas.getContext("2d");
+
+
+    //limpia el lienzo
+    canvas.width = canvas.width;
+
+    console.log(posX, posY);
+
+    if(posX < 0 || posY < 0 || posX>canvas.width || posY > canvas.height){
+        abrirDialog();
+
+    }else {
+
+        let img;
+        img = new Image();
+        img.src = "images/auto.png";
+
+        img.onload = function () {
+            ctx.drawImage(img, posX, posY);
+        }
+    }
+}
+
+let abrirDialog = () => {
+    const dialog = document.getElementById("myDialog");
+    dialog.showModal();
+}
+
+let cerrarDialog =  () => {
+    const dialog = document.getElementById("myDialog");
+    dialog.close();
+}
+
+
+var x = 0;
+var dx = 2;
+let animarAuto= () => {
+    const canvas = document.getElementById("myCanvas");
+    const ctx = canvas.getContext("2d");
+
+    let img;
+    img = new Image();
+    img.src = "images/auto.png";
+
+    img.onload = function (){
+        canvas.width = canvas.width;
+        ctx.drawImage(img, x, 100);
+
+    }
+
+    if (x>= canvas.width){
+        x = 0;
+    }
+
+    x += dx;
+}
+
+
+
+var x = 0;
+var dx = 2;
+let animarAutoRequest= () => {
+    const canvas = document.getElementById("myCanvas");
+    const ctx = canvas.getContext("2d");
+
+    let img;
+    img = new Image();
+    img.src = "images/auto.png";
+
+    img.onload = function (){
+        canvas.width = canvas.width;
+        ctx.drawImage(img, x, 100);
+        requestAnimationFrame(animarAutoRequest);
+
+    }
+
+    if (x>= canvas.width){
+        x = 0;
+    }
+    x += dx;
+}
+
+let animarNuevo = () => {
+    requestAnimationFrame(animarAutoRequest)
+}
