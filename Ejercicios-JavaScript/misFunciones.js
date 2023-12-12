@@ -103,6 +103,34 @@ let sumar = () => {
     document.getElementById("totalS").innerHTML = res;
 }
 
+let restar = () => {
+    let num1, num2, res;
+
+    num1 = document.getElementById("nums1").value;
+    num2 = document.getElementById("nums2").value;
+    res = Number(num1) - Number(num2);
+    document.getElementById("totalS").innerHTML = res;
+}
+
+let multiplicar = () => {
+    let num1, num2, res;
+
+    num1 = document.getElementById("nums1").value;
+    num2 = document.getElementById("nums2").value;
+    res = Number(num1) * Number(num2);
+    document.getElementById("totalS").innerHTML = res;
+}
+
+let dividir = () => {
+    let num1, num2, res;
+
+    num1 = document.getElementById("nums1").value;
+    num2 = document.getElementById("nums2").value;
+    res = Number(num1) / Number(num2);
+    document.getElementById("totalS").innerHTML = res;
+}
+
+
 
 let generarUrl = () => {
     const dist = document.getElementById("distancia").value;
